@@ -32,8 +32,9 @@ def draw(data):
         for d in data:
             for b in d:
                 if b == 1: #dataが1、即ち、ブロックが存在する場合
+                    print('aaa')
                     cv.create_rectangle(block_start_position_x - block_size["x"], block_start_position_y - block_size["y"],
-                                        block_start_position_x + block_size["x"], block_start_position_y + block_size["y"])
+                                        block_start_position_x + block_size["x"], block_start_position_y + block_size["y"], fill="red")
 
                 block_start_position_x += block_size["x"]
 
