@@ -34,7 +34,7 @@ def select_data():
     num = random.randint(0, len(types))
 
     block_type = types[num]
-    block_type = "i"
+    block_type = "i"                   #仮で
 
     if block_type == "s":
         data = [
