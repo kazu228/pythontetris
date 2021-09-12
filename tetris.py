@@ -29,12 +29,11 @@ def is_empty(data):
         return False
 
 def select_data():
-    types = ["i", "j", "k", "l", "o", "s", "t", "z"]
+    types = ["i", "j","l", "o", "s", "t", "z"]
 
-    num = random.randint(0, len(types))
-
+    num = random.randint(0, len(types)-1)
     block_type = types[num]
-    block_type = "i"                   #仮で
+    # block_type = "i"                   #仮で
 
     if block_type == "s":
         data = [
@@ -48,6 +47,36 @@ def select_data():
             [0, 1],
             [0, 1],
             [0, 1]
+        ]
+    if block_type == "j":
+        data = [
+            [0, 1],
+            [0, 1],
+            [1, 1]
+        ]
+    if block_type == "l":
+        data = [
+            [1, 0],
+            [1, 0],
+            [1, 1]
+        ]
+    if block_type == "o":
+        data = [
+            [0, 0],
+            [1, 1],
+            [1, 1]
+        ]
+    if block_type == "t":
+        data = [
+            [1, 0],
+            [1, 1],
+            [1, 0]
+        ]
+    if block_type == "s":
+        data = [
+            [0, 1],
+            [1, 1],
+            [1, 0]
         ]
     return data
 
