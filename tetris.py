@@ -13,8 +13,8 @@ cv.pack()
 # ]
 
 # ブロックの一番最初のスタート位置
-block_start_position_x = 200   
-block_start_position_y = 10
+block_position_x = 200   
+block_position_y = 10
 
 block_size = {
     "x": 10,
@@ -81,26 +81,48 @@ def select_data():
     return data
 
 def draw(data):
-    global block_start_position_x, block_start_position_y
+    global block_position_x, block_position_y
+    cv.delete('all')
     if not is_empty(data):
         #dataがあったとき、テトリスのブロック描画
         for d in data:
             for b in d:
                 if b == 1: #dataが1、即ち、ブロックが存在する場合
                     # print('aaa')
-                    cv.create_rectangle(block_start_position_x - block_size["x"], block_start_position_y - block_size["y"],
-                                        block_start_position_x + block_size["x"], block_start_position_y + block_size["y"], fill="red")
+                    cv.create_rectangle(block_position_x - block_size["x"], block_position_y - block_size["y"],
+                                        block_position_x + block_size["x"], block_position_y + block_size["y"], fill="red")
 
                 # ブロックの幅分、ずらす。
-                block_start_position_x += block_size["x"] * 2  
+                block_position_x += block_size["x"] * 2  
 
-            block_start_position_x = 200
-            block_start_position_y += block_size["y"] * 2     # ブロックの幅分、ずらす。
+            block_position_x = 200
+            block_position_y += block_size["y"] * 2     # ブロックの幅分、ずらす。
+
+def move():
+    #ブロックの下に進む先の座標
+    global block_position_x, block_position_y, win
+    block_position_x += 10
+    
+    win.bind("<Left>", key_event_left)
+    win.bind("<Right>", key_event_right)
+
+def key_event_left(e):
+    global block_position_x
+    if block_position_x > 0:
+        block_position_x -= 10
+
+def key_event_right(e):
+    global block_position_x
+    if block_position_x < 400:
+        block_position_x += 10 
+    
 
 def main():
     data2 = select_data()
     print(data2)
     draw(data2)
+    move()
+    win.after(100, main)
 
 main()
 win.mainloop()
