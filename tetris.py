@@ -21,7 +21,6 @@ block_size = {
     "y": 10
 }
 
-is_new_block = True
 
 def is_empty(data):
     num = len(data)
@@ -30,13 +29,16 @@ def is_empty(data):
     else:
         return False
 
-def select_data():
+def select_data(data=[]):
     types = ["i", "j","l", "o", "s", "t", "z"]
-
-    num = random.randint(0, len(types)-1)
-    block_type = types[num]
+    print(is_empty(data))
+    if is_empty(data):
+        num = random.randint(0, len(types)-1)
+        block_type = types[num]
+    else:
+        block_type = data[4]
     # block_type = "i"                   #仮で
-    print(block_type)
+    
     if block_type == "s":
         data = [
             [0, 0],
@@ -86,13 +88,13 @@ def select_data():
             [1, 1],
             [1, 0]
         ]
+    data.append(block_type)  # 4番目に追加
     return data
 
 def draw(data):
     global block_position_x, block_position_y
     cv.delete('all')
     if not is_empty(data):
-        is_new_block = False
         #dataがあったとき、テトリスのブロック描画
         for d in data:
             for b in d:
@@ -110,9 +112,10 @@ def draw(data):
 
 def move():
     #ブロックの下に進む先の座標
-    global block_position_x, block_position_y, win
+    global block_position_x, block_position_y, win, is_new_block
     if block_position_y <= 600:
         block_position_y += 10
+        is_new_block = False
     else:
         block_position_y = 640   # ゲームの底のy座標
         is_new_block = True
@@ -132,12 +135,11 @@ def key_event_right(e):
     
 
 def main():
-    if is_new_block:
-        data = select_data()
-    print(data)
+    data = select_data()
+    print(data[4])
     draw(data)
     move()
-    win.after(1000, main)
-
+    win.after(1000, main)    #次のループに値が渡す方法がわからない。
+    
 main()
 win.mainloop()
