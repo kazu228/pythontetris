@@ -21,6 +21,8 @@ block_size = {
     "y": 10
 }
 
+is_new_block = True
+
 def is_empty(data):
     num = len(data)
     if num == 0:
@@ -33,10 +35,11 @@ def select_data():
 
     num = random.randint(0, len(types)-1)
     block_type = types[num]
-    block_type = "i"                   #仮で
-
+    # block_type = "i"                   #仮で
+    print(block_type)
     if block_type == "s":
         data = [
+            [0, 0],
             [1, 0],
             [1, 1],
             [0, 1]
@@ -50,12 +53,14 @@ def select_data():
         ]
     if block_type == "j":
         data = [
+            [0, 0],
             [0, 1],
             [0, 1],
             [1, 1]
         ]
     if block_type == "l":
         data = [
+            [0, 0],
             [1, 0],
             [1, 0],
             [1, 1]
@@ -63,17 +68,20 @@ def select_data():
     if block_type == "o":
         data = [
             [0, 0],
+            [0, 0],
             [1, 1],
             [1, 1]
         ]
     if block_type == "t":
         data = [
+            [0, 0],
             [1, 0],
             [1, 1],
             [1, 0]
         ]
-    if block_type == "s":
+    if block_type == "z":
         data = [
+            [0, 0],
             [0, 1],
             [1, 1],
             [1, 0]
@@ -84,6 +92,7 @@ def draw(data):
     global block_position_x, block_position_y
     cv.delete('all')
     if not is_empty(data):
+        is_new_block = False
         #dataがあったとき、テトリスのブロック描画
         for d in data:
             for b in d:
@@ -102,11 +111,11 @@ def draw(data):
 def move():
     #ブロックの下に進む先の座標
     global block_position_x, block_position_y, win
-    print(block_position_y<=600)
     if block_position_y <= 600:
         block_position_y += 10
     else:
-        block_position_y = 630   # ゲームの底のy座標
+        block_position_y = 640   # ゲームの底のy座標
+        is_new_block = True
     
     win.bind("<Left>", key_event_left)
     win.bind("<Right>", key_event_right)
@@ -123,9 +132,10 @@ def key_event_right(e):
     
 
 def main():
-    data2 = select_data()
-    print(data2)
-    draw(data2)
+    if is_new_block:
+        data = select_data()
+    print(data)
+    draw(data)
     move()
     win.after(1000, main)
 
