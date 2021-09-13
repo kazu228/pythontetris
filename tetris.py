@@ -33,7 +33,7 @@ def select_data():
 
     num = random.randint(0, len(types)-1)
     block_type = types[num]
-    # block_type = "i"                   #仮で
+    block_type = "i"                   #仮で
 
     if block_type == "s":
         data = [
@@ -96,12 +96,17 @@ def draw(data):
                 block_position_x += block_size["x"] * 2  
 
             block_position_x = 200
+            # if block_position_y <= 600:
             block_position_y += block_size["y"] * 2     # ブロックの幅分、ずらす。
 
 def move():
     #ブロックの下に進む先の座標
     global block_position_x, block_position_y, win
-    block_position_x += 10
+    print(block_position_y<=600)
+    if block_position_y <= 600:
+        block_position_y += 10
+    else:
+        block_position_y = 630   # ゲームの底のy座標
     
     win.bind("<Left>", key_event_left)
     win.bind("<Right>", key_event_right)
@@ -122,7 +127,7 @@ def main():
     print(data2)
     draw(data2)
     move()
-    win.after(100, main)
+    win.after(1000, main)
 
 main()
 win.mainloop()
